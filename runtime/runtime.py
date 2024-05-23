@@ -661,7 +661,7 @@ class StageRuntime:
 
         TODO: don't currently support uneven configurations.
         """
-        print*(self.stage)
+        print(self.stage)
         return loader_size
         # if self.stage == 0 or self.stage is None:
         #     return loader_size
