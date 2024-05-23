@@ -22,10 +22,25 @@ import torch.utils.data.distributed
 import torchvision.transforms as transforms
 import torchvision.datasets as datasets
 
+import numpy as np
+import random
+
 sys.path.append("..")
 import runtime
 import sgd
 
+
+START_TIME = time.time()
+
+
+def setup_seed(seed):
+    torch.manual_seed(seed)
+    torch.cuda.manual_seed_all(seed)
+    np.random.seed(seed)
+    random.seed(seed)
+    torch.backends.cudnn.deterministic = True
+
+setup_seed(2)
 parser = argparse.ArgumentParser(description='PyTorch ImageNet Training')
 parser.add_argument('--data_dir', type=str,
                     help='path to dataset')
@@ -45,7 +60,7 @@ parser.add_argument('--eval-batch-size', default=100, type=int,
                     help='eval mini-batch size (default: 100)')
 parser.add_argument('--lr', '--learning-rate', default=0.001, type=float,
                     metavar='LR', help='initial learning rate')
-parser.add_argument('--lr_policy', default='step', type=str,
+parser.add_argument('--lr_policy', default='do_nothing', type=str,
                     help='policy for controlling learning rate')
 parser.add_argument('--lr_warmup', action='store_true',
                     help='Warmup learning rate first 5 epochs')
@@ -339,7 +354,7 @@ def train(train_loader, r, optimizer, epoch):
     n = r.num_iterations(loader_size=len(train_loader))
     if args.num_minibatches is not None:
         n = min(n, args.num_minibatches)
-    if not is_first_stage(): n=args.laststage_n
+    # if not is_first_stage(): n=args.laststage_n
     r.train(n)
 
     if not is_first_stage(): train_loader = None
@@ -389,13 +404,16 @@ def train(train_loader, r, optimizer, epoch):
                       'Memory: {memory:.3f} ({cached_memory:.3f})\t'
                       'Loss: {loss.val:.4f} ({loss.avg:.4f})\t'
                       'Prec@1: {top1.val:.3f} ({top1.avg:.3f})\t'
-                      'Prec@5: {top5.val:.3f} ({top5.avg:.3f})'.format(
+                      'Prec@5: {top5.val:.3f} ({top5.avg:.3f})\t'
+                      'Running Time: {time:.3f}'.format(
                        epoch, i, n, batch_time=batch_time,
                        epoch_time=epoch_time, full_epoch_time=full_epoch_time,
                        loss=losses, top1=top1, top5=top5,
                        memory=(float(torch.cuda.memory_allocated()) / 10**9),
-                       cached_memory=(float(torch.cuda.memory_cached()) / 10**9)))
-                import sys; sys.stdout.flush()
+                       cached_memory=(float(torch.cuda.memory_cached()) / 10**9),
+                       time=time.time()-START_TIME))
+                import sys
+                sys.stdout.flush()
         else:
             if i % args.print_freq == 0:
                 print('Epoch: [{0}][{1}/{2}]\tMemory: {memory:.3f} ({cached_memory:.3f})'.format(
@@ -554,6 +572,8 @@ def adjust_learning_rate(optimizer, epoch, total_epochs, r, lr_policy, step, epo
         elif lr_policy == "exponential_decay":
             decay_rate = 0.97
             lr = stage_base_lr * (decay_rate ** (float(epoch) / float(total_epochs)))
+        elif lr_policy =="do_nothing":
+            pass
         else:
             raise NotImplementedError
 
