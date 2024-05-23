@@ -107,7 +107,6 @@ parser.add_argument('--recompute', action='store_true',
 # by not applying updates every minibatch.
 parser.add_argument('--macrobatch', action='store_true',
                     help='Macrobatch updates to save memory')
-parser.add_argument('--laststage_n',type=int,default=780)
 
 best_prec1 = 0
 
@@ -356,7 +355,6 @@ def train(train_loader, r, optimizer, epoch):
     n = r.num_iterations(loader_size=len(train_loader))
     if args.num_minibatches is not None:
         n = min(n, args.num_minibatches)
-    # if not is_first_stage(): n=args.laststage_n
     r.train(n)
 
     if not is_first_stage(): train_loader = None
@@ -432,7 +430,6 @@ def train(train_loader, r, optimizer, epoch):
         r.run_backward()
         optimizer.load_new_params()
         optimizer.step()
-        print("after print!!")
 
     # finish remaining backward passes
     for i in range(num_warmup_minibatches):
@@ -442,6 +439,7 @@ def train(train_loader, r, optimizer, epoch):
         optimizer.load_new_params()
         optimizer.step()
 
+    print('before wait')
     # wait for all helper threads to complete
     r.wait()
 
