@@ -92,6 +92,7 @@ parser.add_argument('--recompute', action='store_true',
 # by not applying updates every minibatch.
 parser.add_argument('--macrobatch', action='store_true',
                     help='Macrobatch updates to save memory')
+parser.add_argument('--laststage_n',type=int,default=780)
 
 best_prec1 = 0
 
@@ -339,6 +340,7 @@ def train(train_loader, r, optimizer, epoch):
     if args.num_minibatches is not None:
         n = min(n, args.num_minibatches)
     r.train(n)
+    if is_last_stage(): n=args.laststage_n
     if not is_first_stage(): train_loader = None
     r.set_loader(train_loader)
 
