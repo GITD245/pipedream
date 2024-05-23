@@ -457,8 +457,7 @@ def validate(val_loader, r, epoch):
     n = r.num_iterations(loader_size=len(val_loader))
     if args.num_minibatches is not None:
         n = min(n, args.num_minibatches)
-    # print(f'validate_n:{n}')
-    n = 50
+    print(f'validate_n:{n}')
     r.eval(n)
     if not is_first_stage(): val_loader = None
     r.set_loader(val_loader)
