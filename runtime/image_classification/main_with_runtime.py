@@ -376,6 +376,8 @@ def train(train_loader, r, optimizer, epoch):
     for i in range(num_warmup_minibatches):
         r.run_forward()
 
+    print(f"n - num_warmup_minibatches:{n - num_warmup_minibatches}")
+
     for i in range(n - num_warmup_minibatches):
         # perform forward pass
         r.run_forward()
@@ -431,8 +433,9 @@ def train(train_loader, r, optimizer, epoch):
         r.run_backward()
         optimizer.load_new_params()
         optimizer.step()
+        print('1111111')
     
-    print('11111111')
+    print('2222222')
     
     # finish remaining backward passes
     for i in range(num_warmup_minibatches):
