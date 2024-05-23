@@ -212,8 +212,8 @@ def main():
     args.stage = r.stage
     args.num_stages = r.num_stages
     args.num_ranks = r.num_ranks
-    if not is_first_stage():
-        args.synthetic_data = True
+    # if not is_first_stage():
+    #     args.synthetic_data = True
 
     # define optimizer
     if args.no_input_pipelining:
