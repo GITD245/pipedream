@@ -4,12 +4,14 @@
 import torch
 from .stage0 import Stage0
 from .stage1 import Stage1
+from .stage2 import Stage2
 
 class VGG16Split(torch.nn.Module):
     def __init__(self):
         super(VGG16Split, self).__init__()
         self.stage0 = Stage0()
         self.stage1 = Stage1()
+        self.stage2 = Stage2()
         self._initialize_weights()
 
     def _initialize_weights(self):
