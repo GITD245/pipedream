@@ -30,4 +30,5 @@ class VGG16Split(torch.nn.Module):
     def forward(self, input0):
         out0 = self.stage0(input0)
         out1 = self.stage1(out0)
-        return out1
+        out2 = self.stage2(out1)
+        return out2
