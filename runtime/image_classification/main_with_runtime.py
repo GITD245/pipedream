@@ -421,7 +421,9 @@ def train(train_loader, r, optimizer, epoch):
                        cached_memory=(float(torch.cuda.memory_cached()) / 10**9)))
                 import sys; sys.stdout.flush()
 
+
         # perform backward pass
+        print('1111111')
         if args.fp16:
             r.zero_grad()
         else:
@@ -429,9 +431,11 @@ def train(train_loader, r, optimizer, epoch):
         optimizer.load_old_params()
         r.run_backward()
         optimizer.load_new_params()
+        print('2222222')
         optimizer.step()
+        print('3333333')
     
-    print('before wait')
+    
     # finish remaining backward passes
     for i in range(num_warmup_minibatches):
         optimizer.zero_grad()
