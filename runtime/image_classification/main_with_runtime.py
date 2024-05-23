@@ -354,7 +354,7 @@ def train(train_loader, r, optimizer, epoch):
     n = r.num_iterations(loader_size=len(train_loader))
     if args.num_minibatches is not None:
         n = min(n, args.num_minibatches)
-    if not is_first_stage(): n=args.laststage_n
+    # if not is_first_stage(): n=args.laststage_n
     r.train(n)
 
     if not is_first_stage(): train_loader = None
