@@ -324,9 +324,10 @@ def main():
         if args.forward_only:
             validate(val_loader, r, epoch)
         else:
-            train(train_loader, r, optimizer, epoch)
+            # train(train_loader, r, optimizer, epoch)
 
             # evaluate on validation set
+            print(len(val_dataset))
             prec1 = validate(val_loader, r, epoch)
             if r.stage != r.num_stages: prec1 = 0
 
