@@ -573,7 +573,7 @@ def adjust_learning_rate(optimizer, epoch, total_epochs, r, lr_policy, step, epo
             decay_rate = 0.97
             lr = stage_base_lr * (decay_rate ** (float(epoch) / float(total_epochs)))
         elif lr_policy =="do_nothing":
-            lr = args.learning_rate
+            lr = args.lr
         else:
             raise NotImplementedError
 
