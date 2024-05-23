@@ -326,7 +326,7 @@ def main():
             # train(train_loader, r, optimizer, epoch)
 
             # evaluate on validation set
-            print(len(val_dataset))
+
             prec1 = validate(val_loader, r, epoch)
             if r.stage != r.num_stages: prec1 = 0
 
@@ -456,6 +456,7 @@ def validate(val_loader, r, epoch):
     top5 = AverageMeter()
 
     # switch to evaluate mode
+    print(f'len(val_loader):{len(val_loader)}')
     n = r.num_iterations(loader_size=len(val_loader))
     if args.num_minibatches is not None:
         n = min(n, args.num_minibatches)
