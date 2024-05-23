@@ -346,7 +346,7 @@ def main():
 
 
 def train(train_loader, r, optimizer, epoch):
-    print('start train!!!!')
+
     batch_time = AverageMeter()
     losses = AverageMeter()
     top1 = AverageMeter()
@@ -432,6 +432,7 @@ def train(train_loader, r, optimizer, epoch):
         r.run_backward()
         optimizer.load_new_params()
         optimizer.step()
+        print("after print!!")
 
     # finish remaining backward passes
     for i in range(num_warmup_minibatches):
