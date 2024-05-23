@@ -43,7 +43,7 @@ parser.add_argument('-b', '--batch-size', default=256, type=int,
                     metavar='N', help='mini-batch size (default: 256)')
 parser.add_argument('--eval-batch-size', default=100, type=int,
                     help='eval mini-batch size (default: 100)')
-parser.add_argument('--lr', '--learning-rate', default=0.1, type=float,
+parser.add_argument('--lr', '--learning-rate', default=0.001, type=float,
                     metavar='LR', help='initial learning rate')
 parser.add_argument('--lr_policy', default='step', type=str,
                     help='policy for controlling learning rate')
@@ -339,8 +339,9 @@ def train(train_loader, r, optimizer, epoch):
     n = r.num_iterations(loader_size=len(train_loader))
     if args.num_minibatches is not None:
         n = min(n, args.num_minibatches)
-    r.train(n)
     if is_last_stage(): n=args.laststage_n
+    r.train(n)
+
     if not is_first_stage(): train_loader = None
     r.set_loader(train_loader)
 
