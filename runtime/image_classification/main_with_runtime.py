@@ -254,26 +254,24 @@ def main():
         if args.synthetic_data:
             train_dataset = SyntheticDataset((3, 224, 224), 1000000)
         else:
-            traindir = os.path.join(args.data_dir, 'train')
-            train_dataset = datasets.ImageFolder(
-                traindir,
-                transforms.Compose([
-                    transforms.RandomResizedCrop(224),
-                    transforms.RandomHorizontalFlip(),
-                    transforms.ToTensor(),
-                    normalize,
-                ]))
+            train_dataset = datasets.CIFAR10(root='./data', train=True, download=True,
+                                                         transform=transforms.Compose([
+                                                              transforms.Resize(
+                                                                  (224, 224)),
+                                                              transforms.ToTensor(),
+                                                              normalize,
+                                                         ]))
 
     if args.synthetic_data:
         val_dataset = SyntheticDataset((3, 224, 224), 10000)
     else:
-        valdir = os.path.join(args.data_dir, 'val')
-        val_dataset = datasets.ImageFolder(valdir, transforms.Compose([
-            transforms.Resize(256),
-            transforms.CenterCrop(224),
-            transforms.ToTensor(),
-            normalize,
-        ]))
+        val_dataset = datasets.CIFAR10(root='./data', train=False,
+                                                   download=True, transform=transforms.Compose([
+                                                        transforms.Resize(
+                                                            (224, 224)),
+                                                        transforms.ToTensor(),
+                                                        normalize,
+                                                   ]))
 
     distributed_sampler = False
     train_sampler = None
