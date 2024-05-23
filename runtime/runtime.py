@@ -661,7 +661,10 @@ class StageRuntime:
 
         TODO: don't currently support uneven configurations.
         """
-        # print(self.stage)
+        print("self.num_ranks_in_first_stage")
+        print(self.num_ranks_in_first_stage)
+        print("num_ranks_in_stage")
+        print(self.num_ranks_in_stage)
         return loader_size
         # if self.stage == 0 or self.stage is None:
         #     return loader_size
