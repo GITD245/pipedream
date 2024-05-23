@@ -27,7 +27,7 @@ class Stage1(torch.nn.Module):
         self.layer22 = torch.nn.Linear(in_features=4096, out_features=4096, bias=True)
         self.layer23 = torch.nn.ReLU(inplace=True)
         self.layer24 = torch.nn.Dropout(p=0.5)
-        self.layer25 = torch.nn.Linear(in_features=4096, out_features=1000, bias=True)
+        self.layer25 = torch.nn.Linear(in_features=4096, out_features=10, bias=True)
 
         self._initialize_weights()
 
