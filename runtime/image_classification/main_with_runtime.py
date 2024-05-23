@@ -380,7 +380,9 @@ def train(train_loader, r, optimizer, epoch):
 
     for i in range(n - num_warmup_minibatches):
         # perform forward pass
+        print('in forward')
         r.run_forward()
+        print('out forward')
 
         # Adjust learning rate
         adjust_learning_rate(optimizer, epoch, args.epochs, r, args.lr_policy, i, n)
@@ -433,9 +435,8 @@ def train(train_loader, r, optimizer, epoch):
         r.run_backward()
         optimizer.load_new_params()
         optimizer.step()
-        print('1111111')
+        print(f'round:{i}')
     
-    print('2222222')
     
     # finish remaining backward passes
     for i in range(num_warmup_minibatches):
