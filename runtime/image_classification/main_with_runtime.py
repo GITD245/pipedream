@@ -346,6 +346,7 @@ def main():
 
 
 def train(train_loader, r, optimizer, epoch):
+    print('start train!!!!')
     batch_time = AverageMeter()
     losses = AverageMeter()
     top1 = AverageMeter()
