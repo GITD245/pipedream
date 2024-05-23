@@ -323,7 +323,7 @@ def main():
         if args.forward_only:
             validate(val_loader, r, epoch)
         else:
-            train(train_loader, r, optimizer, epoch)
+            # train(train_loader, r, optimizer, epoch)
 
             # evaluate on validation set
             print(len(val_dataset))
@@ -423,7 +423,6 @@ def train(train_loader, r, optimizer, epoch):
 
 
         # perform backward pass
-        print('1111111')
         if args.fp16:
             r.zero_grad()
         else:
@@ -431,10 +430,9 @@ def train(train_loader, r, optimizer, epoch):
         optimizer.load_old_params()
         r.run_backward()
         optimizer.load_new_params()
-        print('2222222')
         optimizer.step()
-        print('3333333')
     
+    print('11111111')
     
     # finish remaining backward passes
     for i in range(num_warmup_minibatches):
