@@ -489,15 +489,15 @@ class StageRuntime:
         """Run forward pass.
         """
         # Receive tensors from previous worker.
-        print('in receive')
+        # print('in receive')
         self.receive_tensors_forward()
-        print('out receive')
+        # print('out receive')
         tensors = self.tensors[-1]
 
         # Run forward pass.
-        print('in _forward')
+        # print('in _forward')
         self._run_forward(tensors)
-        print('out _forward')
+        # print('out _forward')
 
         # Send tensors forward.
         self.send_tensors_forward()
@@ -673,7 +673,7 @@ class StageRuntime:
         print(self.num_ranks_in_stage)
         print("loader_size")
         print(loader_size)
-        
+
         if self.stage == 0 or self.stage is None:
             return loader_size
 

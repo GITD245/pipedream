@@ -323,6 +323,7 @@ def main():
         if args.forward_only:
             validate(val_loader, r, epoch)
         else:
+            print(f"main_with_runtime train_loader{len(train_loader)}")
             train(train_loader, r, optimizer, epoch)
 
             # evaluate on validation set
@@ -380,9 +381,9 @@ def train(train_loader, r, optimizer, epoch):
 
     for i in range(n - num_warmup_minibatches):
         # perform forward pass
-        print('in forward')
+        # print('in forward')
         r.run_forward()
-        print('out forward')
+        # print('out forward')
 
         # Adjust learning rate
         adjust_learning_rate(optimizer, epoch, args.epochs, r, args.lr_policy, i, n)
